@@ -64,13 +64,22 @@ installer -pkg /tmp/pma/PMA\ Beta.pkg -target /
 #
 echo
 echo "Please Wait..."
-sleep 1m
+echo
+sleep 5s
 #
 #Connect to Parallels Servers
 #
+echo "***********************************************************"
+echo "Enter Domain, ZID and Password for Parallels when prompted"
+echo "Domain = NAO.GLOBAL.GMACFS.COM"
 echo
+sleep 45s
 /Library/Parallels/pma_agent.app/Contents/MacOS/pmmctl get-policies
 echo
 read -p "Press Enter to Continue..."
+echo
+/Library/Parallels/pma_agent.app/Contents/MacOS/pmmctl get-policies
+echo
+sleep 5s
 exit
 #
