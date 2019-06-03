@@ -75,8 +75,9 @@ Build()	{
     #echo $encoded_password
     #echo "//"$zID":"$encoded_password"@dfw1mspif017.nao.global.gmacfs.com/public/mac/Build"
 
-    # echo "Is this a Developer Machine?  y/n"
-    # read -r CLT
+    #Developer CLT option
+    echo
+    read -p "Is this a Developer Machine?  [y/N]" CLT
 
     #Starting build
     echo
@@ -99,6 +100,15 @@ Build()	{
     ./NetworkSSHKey.sh
 
     # #Install CMD Tools
+    if  [ "$CLT" != "${CLT#[Yy]}" ] ;then
+        cd /tmp/build
+        hdiutil attach cmdtools10_14.dmg
+        echo "Installing Xcode Command Line Tools"
+        installer -package /Volumes/"Command Line Developer Tools"/"Command Line Tools (macOS Mojave version 10.14).pkg" -target /
+        hdiutil detach /Volumes/"Command Line Developer Tools"
+    else
+        echo
+    fi  
     # if [[$CLT="y"]]; then
     #     cd /tmp/build
     #     hdiutil attach cmdtools10_14.dmg
@@ -262,23 +272,23 @@ Build()	{
     launchctl_load "$MAGT_LAUNCH_APPINDEX_DAEMON_PLISTFILE"
     start_agents
 }
-# # #
-# # #
-# # # cp -R PMA\ Beta.pkg /tmp/pma/
-# # # installer -pkg /tmp/pma/PMA\ Beta.pkg -target /
 # # # #
+# # # #
+# # # # cp -R PMA\ Beta.pkg /tmp/pma/
+# # # # installer -pkg /tmp/pma/PMA\ Beta.pkg -target /
+# # # # #
+# # # # echo
+# # # # echo "Please Wait..."
+# # # # echo
+# # # sleep 5s
+# # #
+# # #Connect to Parallels Servers
+# # #
+# # # echo "***********************************************************"
+# # # echo "Enter Domain, ZID and Password for Parallels when prompted"
+# # # echo "Domain = NAO.GLOBAL.GMACFS.COM"
+# # # echo "***********************************************************"
 # # # echo
-# # # echo "Please Wait..."
-# # # echo
-# # sleep 5s
-# #
-# #Connect to Parallels Servers
-# #
-# # echo "***********************************************************"
-# # echo "Enter Domain, ZID and Password for Parallels when prompted"
-# # echo "Domain = NAO.GLOBAL.GMACFS.COM"
-# # echo "***********************************************************"
-# # echo
 
 #Function to pull policies from server  
 GetPolicies()  {
@@ -295,7 +305,7 @@ GetPolicies()  {
     echo
 }	
  
-# #Function to restart with timer 
+#Function to restart with timer 
 Restart()	{ 
 	echo
     echo "...Setup Complete, Your Machine Will Now Reboot..."  
