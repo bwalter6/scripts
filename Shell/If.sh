@@ -10,5 +10,5 @@ if  [ "$Input" != "${Input#[Yy]}" ] ;then
     cd /tmp/dir
     pwd
 else
-    echo "Nope"
+    echo "No"
 fi  
