@@ -38,7 +38,7 @@ Build()	{
     echo -n "HostName: "
     read -r HOSTNAME
 
-    # #Set the HostName
+    #Set the HostName
     scutil --set LocalHostName "$HOSTNAME"
     scutil --set HostName "$HOSTNAME"
     scutil --set ComputerName "$HOSTNAME"
@@ -57,7 +57,7 @@ Build()	{
     echo "$e"
     }
 
-    # Prompt for the user zID
+    #Prompt for the user zID
     echo
 	echo -n "Enter DS_ ID: "
     read -r zID
@@ -81,7 +81,7 @@ Build()	{
 	echo "... Starting the Build Process..."
     echo "*****************************************"
 	
-	# #Join to NAO Domain
+    #Join to NAO Domain
     echo "Joining NAO domain"
     dsconfigad -add NAO.GLOBAL.GMACFS.COM -computer "$HOSTNAME" -mobile enable -mobileconfirm disable -username "$zID" -password "$zPass" -ou "ou=osx,ou=technology,ou=windows 7,ou=united states,dc=nao,dc=global,dc=gmacfs,dc=com" -useuncpath disable groups "LG-OSX-Local-Admin" -force
     echo
