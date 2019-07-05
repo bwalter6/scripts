@@ -24,26 +24,31 @@ fi
 #Build Process has been placed into a function 
 #to keep certain variables local
 Build()	{ 
-    #Get The HostName
+    #Set The HostName
     echo
     echo
-    echo "Please Enter the Name of this Device"
-    echo "Site Code + OS + Last 6 of S/N"
-    echo "example: USCHAMNHSABC123"
+    echo "Please Enter the Machine's Site Code and OS Type"
+    echo "example: USCHAMNMO"
     echo "*****************************************"
     system_profiler SPSoftwareDataType | grep "System Version"
-    system_profiler SPHardwareDataType | grep Serial
+    #system_profiler SPHardwareDataType | grep Serial
     echo
     echo
-    echo -n "HostName: "
+    echo -n ":"
     read -r HOSTNAME
 
-    #Set the HostName
+    SN()    {
+        ioreg -k IOPlatformSerialNumber | sed -En 's/^.*"IOPlatformSerialNumber".*(.{6})"$/\1/p'
+    }
+
+    serial=$(SN)
+    # echo $serial
+    HOSTNAME+="$serial"
+    # echo $HOSTNAME
     scutil --set LocalHostName "$HOSTNAME"
     scutil --set HostName "$HOSTNAME"
     scutil --set ComputerName "$HOSTNAME"
 
-    
     #URL Encoding Special characters function shamelessly stolen from someone else
     url_encode() {
     local LANG=C i c e=''
@@ -95,7 +100,7 @@ Build()	{
     cd /tmp/build/
     ./NetworkSSHKey.sh
 
-    # #Install CMD Tools
+    #Install CMD Tools
     if  [ "$CLT" != "${CLT#[Yy]}" ] ;then
         cd /tmp/build
         hdiutil attach cmdtools10_14.dmg
@@ -111,8 +116,8 @@ Build()	{
     #PMA Agent installer image download URL
     PMA_AGENT_DMG_DOWNLOAD_URL="http://dfw1mspif017.nao.global.gmacfs.com:8761/files/pma_agent.dmg"
 
-    # Dedicated PMA Agent registration user credentials
-    # to authenticate with Active Directory
+    #Dedicated PMA Agent registration user credentials
+    #to authenticate with Active Directory
     export PMA_AGENT_REGISTRATION_USERNAME="$zID"
     export PMA_AGENT_REGISTRATION_PASSWORD="$zPass"
     export PMA_AGENT_REGISTRATION_DOMAIN="nao.global.gmacfs.com"
